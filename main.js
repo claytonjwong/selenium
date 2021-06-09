@@ -9,8 +9,10 @@ class TestHarness {
       this.driver = await new Builder()
         .forBrowser(this.browser)
         .build();
-      if (!this.driver)
-        return false;
+      if (!this.driver) {
+        Promise.reject(`Failed to build ${this.browser} web driver`)
+        return;
+      }
       await this.driver.get('https://claytonjwong.com');
       await this.driver.quit();
       Promise.resolve();
@@ -25,4 +27,3 @@ Promise.all([
   new TestHarness('firefox').build(),
 ]).then(() => console.log('done!'))
   .catch((error) => console.log(error));
-
